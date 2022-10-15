@@ -1,214 +1,241 @@
-i = 0
-f = 0
-n = 1
-aminoAcid = str()
-aminoAcidl = []
+import os
+import sys , os
+global aminoAcid
+global basel
+global base2
+aminoAcid = []
+judge1 = ["A","U","G"]
+judge2 = ["G","U","G"]
 base1 = ["U", "C", "A", "G"]
+base2 = []
 basel = []
-base = input(str("请输入mRNA上的碱基(注:头为起始的碱基):"))
-num = len(base) // 3
-for s in base:
-    basel.append(s)
-for n in basel:
-    if n in base1:
-        continue
-    print("碱基有误")
-    quit()
-while n != 0:
-    for p in range(num):
+
+
+
+def write():
+    global f
+    f = -1
+    global base
+    base = input(str("请输入mRNA上的碱基(注:头为起始的碱基):"))
+
+    # 将元素加入basel列表中
+    for s in base:
+        basel.append(s)
+
+    # 判断输入碱基是否符合要求
+    for n in basel:
+        if n in base1:
+            continue
+        print("碱基有误")
+
+        # 获取PYTHON的位置
+        python = sys.executable
+
+        # sys.argv用来获得此文件的位置
+        # os.execl用来向命令行输出指令
+        # 此方法于网络寻得，理解并不深
+        os.execl(python,python,*sys.argv)
+    
+    global num 
+    num = (len(base) // 3) - 1
+    global numOrigin
+    numOrigin = len(base) // 3
+
+
+
+def remove_list():
+    del basel[0]
+    del basel[0]
+    del basel[0]
+
+
+def judgeOrigin():
+# 判断是否为起始密码子
+    for i in range(numOrigin):
+        global f
         f = f + 1
-        if basel[i] == "A":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                if basel[i] == "G":
-                    i = i + 1
-                    aminoAcid = "甲硫氨酸"
-                    aminoAcidl.append(aminoAcid)
-                    n = 0
-                    break
-                else:
-                    i = i + 1
-            else:
-                i = i + 2
-        elif basel[i] == "G":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                if basel[i] == "G":
-                    i = i + 1
-                    aminoAcid = "缬氨酸"
-                    aminoAcidl.append(aminoAcid)
-                    n = 0
-                    break
-                else:
-                    i = i + 1
-            else:
-                i = i + 2
+        base2.append(basel[0])
+        base2.append(basel[1])
+        base2.append(basel[2])
+        if base2 == judge1:
+            aminoAcid.append("甲硫氨酸")
+            remove_list()
+            break
+        elif base2 == judge2:
+            aminoAcid.append("颉氨酸")
+            remove_list()
+            break
         else:
-            if num == f:
-                quit()
+            if f == num:
+                print("无法形成氨基酸")
+                python = sys.executable
+                os.execl(python,python,*sys.argv)
             else:
-                i = i + 3
-for p in range(num - f):
-    if basel[i] == "U":
-        i = i + 1
-        if basel[i] == "U":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                aminoAcid = "苯丙氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "C":
-                i = i + 1
-                aminoAcid = "苯丙氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "A":
-                i = i + 1
-                aminoAcid = "亮氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "G":
-                i = i + 1
-                aminoAcid = "亮氨酸"
-                aminoAcidl.append(aminoAcid)
-        elif basel[i] == "C":
-            i = i + 2
-            aminoAcid = "丝氨酸"
-            aminoAcidl.append(aminoAcid)
-        elif basel[i] == "A":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                aminoAcid = "酪氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "C":
-                i = i + 1
-                aminoAcid = "酪氨酸"
-                aminoAcidl.append(aminoAcid)
-            else:
-                break
-        elif basel[i] == "G":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                aminoAcid = "半胱氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "C":
-                i = i + 1
-                aminoAcid = "半胱氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "G":
-                i = i + 1
-                aminoAcid = "色胺酸"
-                aminoAcidl.append(aminoAcid)
-            else:
-                break
-    elif basel[i] == "C":
-        i = i + 1
-        if basel[i] == "U":
-            i = i + 2
-            aminoAcid = "亮氨酸"
-            aminoAcidl.append(aminoAcid)
-        elif basel[i] == "C":
-            i = i + 2
-            aminoAcid = "脯氨酸"
-            aminoAcidl.append(aminoAcid)
-        elif basel[i] == "A":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                aminoAcid = "组氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "C":
-                i = i + 1
-                aminoAcid = "组氨酸"
-                aminoAcidl.append(aminoAcid)
-            else:
-                i = i + 1
-                aminoAcid = "谷氨酰胺"
-                aminoAcidl.append(aminoAcid)
-        elif basel[i] == "G":
-            i = i + 2
-            aminoAcid = "精氨酸"
-            aminoAcidl.append(aminoAcid)
-    elif basel[i] == "A":
-        i = i + 1
-        if basel[i] == "U":
-            i = i + 1
-            if basel[i] == "G":
-                i = i + 1
-                aminoAcid = "甲硫氨酸"
-                aminoAcidl.append(aminoAcid)
-            else:
-                i = i + 1
-                aminoAcid = "异亮氨酸"
-                aminoAcidl.append(aminoAcid)
-        elif basel[i] == "C":
-            i = i + 2
-            aminoAcid = "苏氨酸"
-            aminoAcidl.append(aminoAcid)
-        elif basel[i] == "A":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                aminoAcid = "天冬酰胺"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "C":
-                i = i + 1
-                aminoAcid = "天冬酰胺"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "A":
-                i = i + 1
-                aminoAcid = "赖氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "G":
-                i = i + 1
-                aminoAcid = "赖氨酸"
-                aminoAcidl.append(aminoAcid)
-        elif basel[i] == "G":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                aminoAcid = "丝氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "C":
-                i = i + 1
-                aminoAcid = "丝氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "A":
-                i = i + 1
-                aminoAcid = "精氨酸"
-                aminoAcidl.append(aminoAcid)
-    elif basel[i] == "G":
-        i = i + 1
-        if basel[i] == "U":
-            i = i + 2
-            aminoAcid = "缬氨酸"
-            aminoAcidl.append(aminoAcid)
-        elif basel[i] == "C":
-            i = i + 2
-            aminoAcid = "丙胺酸"
-            aminoAcidl.append(aminoAcid)
-        elif basel[i] == "A":
-            i = i + 1
-            if basel[i] == "U":
-                i = i + 1
-                aminoAcid = "天冬氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "C":
-                i = i + 1
-                aminoAcid = "天冬氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "A":
-                i = i + 1
-                aminoAcid = "谷氨酸"
-                aminoAcidl.append(aminoAcid)
-            elif basel[i] == "G":
-                i = i + 1
-                aminoAcid = "谷氨酸"
-                aminoAcidl.append(aminoAcid)
-        elif basel[i] == "G":
-            i = i + 2
-            aminoAcid = "甘氨酸"
-            aminoAcidl.append(aminoAcid)
-print(aminoAcidl)
+                remove_list()
+                base2.clear()
+
+def mainFunction():
+# 遍历列表以达到程序目的
+    for p in range(num - f):
+        if basel[0] == "U":
+            if basel[1] == "U":
+                if basel[2] == "U":
+                    remove_list()
+                    aminoAcid.append("苯丙氨酸")
+                elif basel[2] == "C":
+                    remove_list()
+                    aminoAcid.append("苯丙氨酸")
+                elif basel[2] == "A":
+                    remove_list()
+                    aminoAcid.append("亮氨酸")
+                elif basel[2] == "G":
+                    remove_list()
+                    aminoAcid.append("亮氨酸")
+                 
+            elif basel[1] == "C":
+                remove_list()
+                aminoAcid.append("丝氨酸")
+             
+            elif basel[1] == "A":
+                if basel[2] == "U":
+                    remove_list()
+                    aminoAcid.append("酪氨酸")
+                 
+                elif basel[2] == "C":
+                    remove_list()
+                    aminoAcid.append("酪氨酸")
+                 
+                else:
+                    break
+            elif basel[1] == "G":
+                if basel[2] == "U":
+                    remove_list()
+                    aminoAcid.append("半胱氨酸")
+                 
+                elif basel[2] == "C":
+                    remove_list()
+                    aminoAcid.append("半胱氨酸")
+                 
+                elif basel[2] == "G":
+                    remove_list()
+                    aminoAcid.append("色胺酸")
+                 
+                else:
+                    break
+        elif basel[0] == "C":
+            if basel[1] == "U":
+                remove_list()
+                aminoAcid.append("亮氨酸")
+             
+            elif basel[1] == "C":
+                remove_list()
+                aminoAcid.append("脯氨酸")
+             
+            elif basel[1] == "A":
+                if basel[2] == "U":
+                    remove_list()
+                    aminoAcid.append("组氨酸")
+                 
+                elif basel[2] == "C":
+                    remove_list()
+                    aminoAcid.append("组氨酸")
+                 
+                else:
+                    remove_list()
+                    aminoAcid.append("氨酰胺")
+                 
+            elif basel[1] == "G":
+                remove_list()
+                aminoAcid.append("精氨酸")
+             
+        elif basel[0] == "A":
+            if basel[1] == "U":
+                if basel[2] == "G":
+                    remove_list()
+                    aminoAcid.append("甲硫氨酸")
+
+                else:
+                    remove_list()
+                    aminoAcid.append("异亮氨酸")
+                 
+            elif basel[1] == "C":
+                remove_list()
+                aminoAcid.append("苏氨酸")
+             
+            elif basel[1] == "A":
+                if basel[2] == "U":
+                    remove_list()
+                    aminoAcid.append("天冬酰胺")
+                 
+                elif basel[2] == "C":
+                    remove_list()
+                    aminoAcid.append("天冬酰胺")
+                 
+                elif basel[2] == "A":
+                    remove_list()
+                    aminoAcid.append("赖氨酸")
+                 
+                elif basel[2] == "G":
+                    remove_list()
+                    aminoAcid.append("赖氨酸")
+                 
+            elif basel[1] == "G":
+                if basel[2] == "U":
+                    remove_list()
+                    aminoAcid.append("丝氨酸")
+                
+                elif basel[2] == "C":
+                    remove_list()
+                    aminoAcid.append("丝氨酸")
+                
+                elif basel[2] == "A":
+                    remove_list()
+                    aminoAcid.append("精氨酸")
+                
+        elif basel[0] == "G":
+            if basel[1] == "U":
+                remove_list()
+                aminoAcid.append("缬氨酸")
+            
+            elif basel[1] == "C":
+                remove_list()
+                aminoAcid.append("丙胺酸")
+            
+            elif basel[1] == "A":
+                if basel[2] == "U":
+                    remove_list()
+                    aminoAcid.append("天冬氨酸")
+                
+                elif basel[2] == "C":
+                    remove_list()
+                    aminoAcid.append("天冬氨酸")
+                
+                elif basel[2] == "A":
+                    remove_list()
+                    aminoAcid.append("谷氨酸")
+                
+                elif basel[2] == "G":
+                    remove_list()
+                    aminoAcid.append("谷氨酸")
+                
+            elif basel[1] == "G":
+                remove_list()
+                aminoAcid.append("甘氨酸")
+
+
+
+judgeStart = "y"
+while judgeStart == "y":
+    aminoAcid.clear()
+    basel.clear()
+    base2.clear()
+    judgeStart == "n"
+    write()
+    judgeOrigin()
+    mainFunction()
+    print(aminoAcid)
+    judgeStart = input("是否再次执行程序(y/n)")
+    if judgeStart == "y":
+        judgeStart = "y"
+    else:
+        break
